@@ -116,5 +116,29 @@
         <member name="M:ag.DbData.MySql.MySqlDbDataObject.BeginTransaction(System.String)">
             <inheritdoc />
         </member>
+        <member name="M:ag.DbData.MySql.MySqlDbDataObject.ExecuteAsync(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:ag.DbData.MySql.MySqlDbDataObject.ExecuteAsync(System.String,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:ag.DbData.MySql.MySqlDbDataObject.ExecuteAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:ag.DbData.MySql.MySqlDbDataObject.ExecuteAsync(System.String,System.Int32,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:ag.DbData.MySql.MySqlDbDataObject.GetScalarAsync(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:ag.DbData.MySql.MySqlDbDataObject.GetScalarAsync(System.String,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:ag.DbData.MySql.MySqlDbDataObject.GetScalarAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:ag.DbData.MySql.MySqlDbDataObject.GetScalarAsync(System.String,System.Int32,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
     </members>
 </doc>
