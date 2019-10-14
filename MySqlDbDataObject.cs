@@ -1,4 +1,8 @@
 ﻿using ag.DbData.Abstraction;
+using ag.DbData.Abstraction.Services;
+using ag.DbData.MySql.Services;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -7,8 +11,6 @@ using System.Data.Common;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace ag.DbData.MySql
 {
@@ -23,7 +25,9 @@ namespace ag.DbData.MySql
         /// </summary>
         /// <param name="logger"><see cref="ILogger"/> object.</param>
         /// <param name="options"><see cref="DbDataSettings"/> options.</param>
-        public MySqlDbDataObject(ILogger<IDbDataObject> logger, IOptions<DbDataSettings> options) : base(logger, options) { }
+        /// <param name="stringProviderFactory"><see cref="MySqlStringProvider"/> object.</param>
+        public MySqlDbDataObject(ILogger<IDbDataObject> logger, IOptions<DbDataSettings> options, IDbDataStringProviderFactory<MySqlStringProvider> stringProviderFactory) : 
+            base(logger, options, stringProviderFactory.Get()) { }
         #endregion
 
         #region Overrides
@@ -102,7 +106,7 @@ namespace ag.DbData.MySql
             }
             catch (Exception ex)
             {
-                Logger?.LogError(ex, $"Error at BeginTransaction");
+                Logger?.LogError(ex, "Error at BeginTransaction");
                 throw new DbDataException(ex, "");
             }
         }
@@ -244,7 +248,7 @@ namespace ag.DbData.MySql
                 return await Task.Run(async () =>
                 {
                     int rows;
-                    using (var asyncConnection = new MySqlConnection(Connection.ConnectionString))
+                    using (var asyncConnection = new MySqlConnection(StringProvider.ConnectionString))
                     {
                         using (var cmd = asyncConnection.CreateCommand())
                         {
@@ -274,7 +278,7 @@ namespace ag.DbData.MySql
                 return await Task.Run(async () =>
                     {
                         object obj;
-                        using (var asyncConnection = new MySqlConnection(Connection.ConnectionString))
+                        using (var asyncConnection = new MySqlConnection(StringProvider.ConnectionString))
                         {
                             using (var cmd = asyncConnection.CreateCommand())
                             {

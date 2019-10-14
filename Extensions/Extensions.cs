@@ -1,5 +1,7 @@
 ﻿using ag.DbData.Abstraction;
+using ag.DbData.Abstraction.Services;
 using ag.DbData.MySql.Factories;
+using ag.DbData.MySql.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -18,6 +20,8 @@ namespace ag.DbData.MySql.Extensions
         /// <returns><see cref="IServiceCollection"/>.</returns>
         public static IServiceCollection AddAgMySql(this IServiceCollection services)
         {
+            services.AddSingleton<MySqlStringProvider>();
+            services.AddSingleton<IDbDataStringProviderFactory<MySqlStringProvider>, MySqlStringProviderFactory>();
             services.AddSingleton<IMySqlDbDataFactory, MySqlDbDataFactory>();
             services.AddTransient<MySqlDbDataObject>();
             return services;
@@ -31,8 +35,7 @@ namespace ag.DbData.MySql.Extensions
         /// <returns><see cref="IServiceCollection"/>.</returns>
         public static IServiceCollection AddAgMySql(this IServiceCollection services, IConfigurationSection configurationSection)
         {
-            services.AddSingleton<IMySqlDbDataFactory, MySqlDbDataFactory>();
-            services.AddTransient<MySqlDbDataObject>();
+            services.AddAgMySql();
             services.Configure<DbDataSettings>(configurationSection);
             return services;
         }
@@ -46,8 +49,7 @@ namespace ag.DbData.MySql.Extensions
         public static IServiceCollection AddAgMySql(this IServiceCollection services,
             Action<DbDataSettings> configureOptions)
         {
-            services.AddSingleton<IMySqlDbDataFactory, MySqlDbDataFactory>();
-            services.AddTransient<MySqlDbDataObject>();
+            services.AddAgMySql();
             services.Configure(configureOptions);
             return services;
         }
