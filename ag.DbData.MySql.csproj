@@ -28,6 +28,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="readme.txt" Pack="true" PackagePath="." />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="ag.DbData.Abstraction" Version="2.0.4.5" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.0.0" />
