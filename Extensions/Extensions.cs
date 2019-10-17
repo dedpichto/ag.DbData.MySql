@@ -1,9 +1,9 @@
 ﻿using ag.DbData.Abstraction;
 using ag.DbData.Abstraction.Services;
 using ag.DbData.MySql.Factories;
-using ag.DbData.MySql.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 
 namespace ag.DbData.MySql.Extensions
@@ -20,8 +20,7 @@ namespace ag.DbData.MySql.Extensions
         /// <returns><see cref="IServiceCollection"/>.</returns>
         public static IServiceCollection AddAgMySql(this IServiceCollection services)
         {
-            services.AddSingleton<MySqlStringProvider>();
-            services.AddSingleton<IDbDataStringProviderFactory<MySqlStringProvider>, MySqlStringProviderFactory>();
+            services.TryAddTransient<IDbDataStringProvider, DbDataStringProvider>();
             services.AddSingleton<IMySqlDbDataFactory, MySqlDbDataFactory>();
             services.AddTransient<MySqlDbDataObject>();
             return services;
