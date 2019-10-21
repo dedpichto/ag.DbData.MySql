@@ -19,14 +19,22 @@ namespace ag.DbData.MySql
     public class MySqlDbDataObject : DbDataObject
     {
         #region ctor
+
         /// <summary>
         /// Creates new instance of <see cref="MySqlDbDataObject"/>.
         /// </summary>
         /// <param name="logger"><see cref="ILogger"/> object.</param>
         /// <param name="options"><see cref="DbDataSettings"/> options.</param>
         /// <param name="stringProvider"><see cref="IDbDataStringProvider"/> object.</param>
-        public MySqlDbDataObject(ILogger<IDbDataObject> logger, IOptions<DbDataSettings> options, IDbDataStringProvider stringProvider) : 
-            base(logger, options, stringProvider) { }
+        public MySqlDbDataObject(ILogger<IDbDataObject> logger, IOptions<MySqlDbDataSettings> options,
+            IDbDataStringProvider stringProvider) :
+            base(logger, options, stringProvider)
+        {
+            var connectionString = StringProvider.ConnectionString;
+            if (!string.IsNullOrEmpty(connectionString))
+                Connection = new MySqlConnection(connectionString);
+        }
+
         #endregion
 
         #region Overrides
@@ -190,7 +198,7 @@ namespace ag.DbData.MySql
                 {
                     if (!IsValidTimeout(cmd, timeout))
                         throw new ArgumentException("Invalid CommandTimeout value", nameof(timeout));
-
+                    
                     if (inTransaction)
                         cmd.Transaction = (MySqlTransaction)Transaction;
                     using (var da = new MySqlDataAdapter(cmd))
@@ -256,7 +264,6 @@ namespace ag.DbData.MySql
                                 throw new ArgumentException("Invalid CommandTimeout value", nameof(timeout));
 
                             await asyncConnection.OpenAsync(cancellationToken);
-
                             rows = await cmd.ExecuteNonQueryAsync(cancellationToken);
                         }
                     }
