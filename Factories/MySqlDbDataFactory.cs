@@ -8,7 +8,7 @@ namespace ag.DbData.MySql.Factories
     /// <summary>
     /// Represents MySqlDbDataFactory object.
     /// </summary>
-    public class MySqlDbDataFactory : IMySqlDbDataFactory
+    internal class MySqlDbDataFactory : IMySqlDbDataFactory
     {
         private readonly IServiceProvider _serviceProvider;
 

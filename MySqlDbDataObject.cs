@@ -16,7 +16,7 @@ namespace ag.DbData.MySql
     /// <summary>
     /// Represents MySqlDbDataObject object.
     /// </summary>
-    public class MySqlDbDataObject : DbDataObject
+    internal class MySqlDbDataObject : DbDataObject
     {
         #region ctor
 
