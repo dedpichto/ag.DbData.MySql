@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>2.0.4.5</Version>
+    <Version>3.0.0.1</Version>
     <Authors>Andrey Gruber</Authors>
     <Company>Andrey Gruber</Company>
     <Description>Simplifies working with MySql databases in .NET Framework, .NET Core and .NET Standard projects</Description>
@@ -10,7 +10,9 @@
     <RepositoryUrl>https://github.com/dedpichto/ag.DbData.MySql</RepositoryUrl>
     <PackageProjectUrl>https://github.com/dedpichto/ag.DbData.MySql</PackageProjectUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <PackageReleaseNotes />
+    <PackageReleaseNotes>Added ConnectionString to settings, added parameterless Create() method (see readme file for more information)</PackageReleaseNotes>
+    <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
+    <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -32,7 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ag.DbData.Abstraction" Version="2.0.4.5" />
+    <PackageReference Include="ag.DbData.Abstraction" Version="3.0.0.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.0.0" />
     <PackageReference Include="MySql.Data" Version="8.0.18" />

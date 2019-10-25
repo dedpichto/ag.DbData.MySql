@@ -24,7 +24,7 @@
             <param name="configurationSection">The <see cref="T:Microsoft.Extensions.Configuration.IConfigurationSection"/> being bound.</param>
             <returns><see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/>.</returns>
         </member>
-        <member name="M:ag.DbData.MySql.Extensions.Extensions.AddAgMySql(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{ag.DbData.Abstraction.DbDataSettings})">
+        <member name="M:ag.DbData.MySql.Extensions.Extensions.AddAgMySql(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{ag.DbData.MySql.MySqlDbDataSettings})">
             <summary>
             Appends the registration of <see cref="T:ag.DbData.MySql.Factories.MySqlDbDataFactory"/> and <see cref="T:ag.DbData.MySql.MySqlDbDataObject"/> services to <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> and configures the options.
             </summary>
@@ -39,6 +39,12 @@
             <summary>
             Represents MySqlDbDataFactory object.
             </summary>
+        </member>
+        <member name="M:ag.DbData.MySql.Factories.MySqlDbDataFactory.Create">
+            <summary>
+            Creates object of type <see cref="T:ag.DbData.MySql.MySqlDbDataObject"/>.
+            </summary>
+            <returns><see cref="T:ag.DbData.MySql.MySqlDbDataObject"/> implementation of <see cref="T:ag.DbData.Abstraction.IDbDataObject"/> interface.</returns>
         </member>
         <member name="M:ag.DbData.MySql.Factories.MySqlDbDataFactory.Create(System.String)">
             <summary>
@@ -58,13 +64,13 @@
             Represents MySqlDbDataObject object.
             </summary>
         </member>
-        <member name="M:ag.DbData.MySql.MySqlDbDataObject.#ctor(Microsoft.Extensions.Logging.ILogger{ag.DbData.Abstraction.IDbDataObject},Microsoft.Extensions.Options.IOptions{ag.DbData.Abstraction.DbDataSettings},ag.DbData.Abstraction.Services.IDbDataStringProviderFactory{ag.DbData.MySql.Services.MySqlStringProvider})">
+        <member name="M:ag.DbData.MySql.MySqlDbDataObject.#ctor(Microsoft.Extensions.Logging.ILogger{ag.DbData.Abstraction.IDbDataObject},Microsoft.Extensions.Options.IOptions{ag.DbData.MySql.MySqlDbDataSettings},ag.DbData.Abstraction.Services.IDbDataStringProvider)">
             <summary>
             Creates new instance of <see cref="T:ag.DbData.MySql.MySqlDbDataObject"/>.
             </summary>
             <param name="logger"><see cref="T:Microsoft.Extensions.Logging.ILogger"/> object.</param>
             <param name="options"><see cref="T:ag.DbData.Abstraction.DbDataSettings"/> options.</param>
-            <param name="stringProviderFactory"><see cref="T:ag.DbData.MySql.Services.MySqlStringProvider"/> object.</param>
+            <param name="stringProvider"><see cref="T:ag.DbData.Abstraction.Services.IDbDataStringProvider"/> object.</param>
         </member>
         <member name="M:ag.DbData.MySql.MySqlDbDataObject.FillDataSet(System.String)">
             <inheritdoc />
@@ -141,27 +147,10 @@
         <member name="M:ag.DbData.MySql.MySqlDbDataObject.GetScalarAsync(System.String,System.Int32,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="T:ag.DbData.MySql.Services.MySqlStringProvider">
+        <member name="T:ag.DbData.MySql.MySqlDbDataSettings">
             <summary>
-            Represents concrete class inherited from <see cref="T:ag.DbData.Abstraction.Services.DbDataStringProvider"/>.
+            Represents MySqlDbDataSettings object, inherited from <see cref="T:ag.DbData.Abstraction.DbDataSettings"/>.
             </summary>
-        </member>
-        <member name="T:ag.DbData.MySql.Services.MySqlStringProviderFactory">
-            <summary>
-            Represents <see cref="T:ag.DbData.MySql.Services.MySqlStringProviderFactory"/> object.
-            </summary>
-        </member>
-        <member name="M:ag.DbData.MySql.Services.MySqlStringProviderFactory.#ctor(System.IServiceProvider)">
-            <summary>
-            Creates new instance of <see cref="T:ag.DbData.MySql.Services.MySqlStringProviderFactory"/>.
-            </summary>
-            <param name="serviceProvider"><see cref="T:System.IServiceProvider"/>.</param>
-        </member>
-        <member name="M:ag.DbData.MySql.Services.MySqlStringProviderFactory.Get">
-            <summary>
-            Creates object of type <see cref="T:ag.DbData.MySql.Services.MySqlStringProvider"/>.
-            </summary>
-            <returns>Object of type <see cref="T:ag.DbData.MySql.Services.MySqlStringProvider"/>.</returns>
         </member>
     </members>
 </doc>

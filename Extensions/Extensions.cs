@@ -1,9 +1,8 @@
-﻿using ag.DbData.Abstraction;
-using ag.DbData.Abstraction.Services;
+﻿using ag.DbData.Abstraction.Services;
 using ag.DbData.MySql.Factories;
-using ag.DbData.MySql.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 
 namespace ag.DbData.MySql.Extensions
@@ -20,8 +19,7 @@ namespace ag.DbData.MySql.Extensions
         /// <returns><see cref="IServiceCollection"/>.</returns>
         public static IServiceCollection AddAgMySql(this IServiceCollection services)
         {
-            services.AddSingleton<MySqlStringProvider>();
-            services.AddSingleton<IDbDataStringProviderFactory<MySqlStringProvider>, MySqlStringProviderFactory>();
+            services.TryAddTransient<IDbDataStringProvider, DbDataStringProvider>();
             services.AddSingleton<IMySqlDbDataFactory, MySqlDbDataFactory>();
             services.AddTransient<MySqlDbDataObject>();
             return services;
@@ -36,7 +34,11 @@ namespace ag.DbData.MySql.Extensions
         public static IServiceCollection AddAgMySql(this IServiceCollection services, IConfigurationSection configurationSection)
         {
             services.AddAgMySql();
-            services.Configure<DbDataSettings>(configurationSection);
+            services.Configure<MySqlDbDataSettings>(opts =>
+            {
+                opts.AllowExceptionLogging = configurationSection.GetValue<bool>("AllowExceptionLogging");
+                opts.ConnectionString = configurationSection.GetValue<string>("ConnectionString");
+            });
             return services;
         }
 
@@ -47,7 +49,7 @@ namespace ag.DbData.MySql.Extensions
         /// <param name="configureOptions">The action used to configure the options.</param>
         /// <returns><see cref="IServiceCollection"/>.</returns>
         public static IServiceCollection AddAgMySql(this IServiceCollection services,
-            Action<DbDataSettings> configureOptions)
+            Action<MySqlDbDataSettings> configureOptions)
         {
             services.AddAgMySql();
             services.Configure(configureOptions);

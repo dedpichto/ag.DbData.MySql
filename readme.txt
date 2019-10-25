@@ -1,8 +1,9 @@
 ﻿
 // add section to settings file (optional)
 {
-  "DbDataSettings": {
-    "AllowExceptionLogging": false // default is "true" 
+  "MySqlDbDataSettings": {
+    "AllowExceptionLogging": false, // optional, default is "true"
+    "ConnectionString": "YOUR_CONNECTION_STRING" // optional
   }
 }
 
@@ -19,11 +20,12 @@ using ag.DbData.MySql.Factories;
 		// ...
 		services.AddAgMySql();
 		// or
-		services.AddAgMySql(config.GetSection("DbDataSettings"));
+		services.AddAgMySql(config.GetSection("MySqlDbDataSettings"));
 		// or
 		services.AddAgMySql(opts =>
         {
-            opts.AllowExceptionLogging = false; 
+            opts.AllowExceptionLogging = false; // optional
+			opts.ConnectionString = YOUR_CONNECTION_STRING; // optional
         });
 
 ***************************************************************************************************
@@ -42,6 +44,20 @@ using ag.DbData.MySql.Factories;
 // MySqlDbDataObject implements IDisposable interface, so use it into 'using' directive
 
         using (var mySqlDbData = _mySqlFactory.Create(YOUR_CONNECTION_STRING))
+        {
+            using (var t = mySqlDbData.FillDataTable("SELECT * FROM YOUR_TABLE"))
+            {
+                foreach (DataRow r in t.Rows)
+                {
+                    Console.WriteLine(r[0]);
+                }
+            }
+        }
+
+// in case you have defined connection string in configuration setting you may call Create() method
+// without parameter
+
+        using (var mySqlDbData = _mySqlFactory.Create())
         {
             using (var t = mySqlDbData.FillDataTable("SELECT * FROM YOUR_TABLE"))
             {
