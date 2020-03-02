@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>3.0.0.2</Version>
+    <Version>3.0.0.3</Version>
     <Authors>Andrey Gruber</Authors>
     <Company>Andrey Gruber</Company>
     <Description>Simplifies working with MySql databases in .NET Framework, .NET Core and .NET Standard projects</Description>
@@ -10,7 +10,7 @@
     <RepositoryUrl>https://github.com/dedpichto/ag.DbData.MySql</RepositoryUrl>
     <PackageProjectUrl>https://github.com/dedpichto/ag.DbData.MySql</PackageProjectUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <PackageReleaseNotes>Fixed GetDataReader() and GetScalar() exceptions</PackageReleaseNotes>
+    <PackageReleaseNotes>Added parameterless BeginTransaction() method</PackageReleaseNotes>
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
     <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
   </PropertyGroup>
@@ -34,10 +34,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ag.DbData.Abstraction" Version="3.0.0.2" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.0.0" />
-    <PackageReference Include="MySql.Data" Version="8.0.18" />
+    <PackageReference Include="ag.DbData.Abstraction" Version="3.0.0.3" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.2" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.1.2" />
+    <PackageReference Include="MySql.Data" Version="8.0.19" />
   </ItemGroup>
 
 </Project>

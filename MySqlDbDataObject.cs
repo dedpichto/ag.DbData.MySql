@@ -93,29 +93,13 @@ namespace ag.DbData.MySql
         /// <inheritdoc />
         public override bool BeginTransaction(string connectionString)
         {
-            try
-            {
-                if (string.IsNullOrEmpty(connectionString))
-                    return false;
-                if (TransConnection == null)
-                {
-                    TransConnection = new MySqlConnection(connectionString);
-                }
+            return innerBeginTransaction(connectionString);
+        }
 
-                if (TransConnection == null)
-                {
-                    return false;
-                }
-                if (TransConnection.State != ConnectionState.Open)
-                    TransConnection.Open();
-                Transaction = TransConnection.BeginTransaction();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Logger?.LogError(ex, "Error at BeginTransaction");
-                throw new DbDataException(ex, "");
-            }
+        /// <inheritdoc />
+        public override bool BeginTransaction()
+        {
+            return innerBeginTransaction(StringProvider.ConnectionString);
         }
 
         /// <inheritdoc />
@@ -150,7 +134,34 @@ namespace ag.DbData.MySql
 
         #endregion
 
-        #region private procedures
+        #region Private procedures
+        private bool innerBeginTransaction(string connectionString)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(connectionString))
+                    return false;
+                if (TransConnection == null)
+                {
+                    TransConnection = new MySqlConnection(connectionString);
+                }
+
+                if (TransConnection == null)
+                {
+                    return false;
+                }
+                if (TransConnection.State != ConnectionState.Open)
+                    TransConnection.Open();
+                Transaction = TransConnection.BeginTransaction();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logger?.LogError(ex, "Error at BeginTransaction");
+                throw new DbDataException(ex, "");
+            }
+        }
+
         private DataSet innerFillDataSet(string query, IEnumerable<string> tables, int timeout, bool inTransaction)
         {
             try
@@ -198,7 +209,7 @@ namespace ag.DbData.MySql
                 {
                     if (!IsValidTimeout(cmd, timeout))
                         throw new ArgumentException("Invalid CommandTimeout value", nameof(timeout));
-                    
+
                     if (inTransaction)
                         cmd.Transaction = (MySqlTransaction)Transaction;
                     using (var da = new MySqlDataAdapter(cmd))

@@ -123,6 +123,9 @@
         <member name="M:ag.DbData.MySql.MySqlDbDataObject.BeginTransaction(System.String)">
             <inheritdoc />
         </member>
+        <member name="M:ag.DbData.MySql.MySqlDbDataObject.BeginTransaction">
+            <inheritdoc />
+        </member>
         <member name="M:ag.DbData.MySql.MySqlDbDataObject.ExecuteAsync(System.String)">
             <inheritdoc />
         </member>
