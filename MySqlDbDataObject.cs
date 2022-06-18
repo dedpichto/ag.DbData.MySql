@@ -144,6 +144,17 @@ namespace ag.DbData.MySql
         public override async Task<object> GetScalarAsync(string query, int timeout,
             CancellationToken cancellationToken) => await innerGetScalarAsync(query, cancellationToken, timeout);
 
+        /// <inheritdoc />
+        public override async Task<DataTable> FillDataTableAsync(string query) => await innerFillDataTableAsync(query, CancellationToken.None, -1);
+        /// <inheritdoc />
+        public override async Task<DataTable> FillDataTableAsync(string query, int timeout) => await innerFillDataTableAsync(query, CancellationToken.None, timeout);
+
+        /// <inheritdoc />
+        public override async Task<DataTable> FillDataTableAsync(string query, CancellationToken cancellationToken) => await innerFillDataTableAsync(query, cancellationToken, -1);
+
+        /// <inheritdoc />
+        public override async Task<DataTable> FillDataTableAsync(string query, int timeout, CancellationToken cancellationToken) => await innerFillDataTableAsync(query, cancellationToken, timeout);
+
         #endregion
 
         #region Private procedures
@@ -347,11 +358,30 @@ namespace ag.DbData.MySql
                             }
                         }
                         return obj;
-                    }, cancellationToken);
+                    });
             }
             catch (Exception ex)
             {
                 Logger?.LogError(ex, $"Error at GetScalarAsync; command text: {query}");
+                throw new DbDataException(ex, query);
+            }
+        }
+
+        private async Task<DataTable> innerFillDataTableAsync(string query, CancellationToken cancellationToken, int timeout = -1)
+        {
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    using (var asyncConnection = new MySqlConnection(StringProvider.ConnectionString))
+                    {
+                        return await FillDataTableAsync(asyncConnection, query, cancellationToken, timeout);
+                    }
+                }, cancellationToken);
+        }
+            catch (Exception ex)
+            {
+                Logger?.LogError(ex, $"Error at innerFillDataTableAsync; command text: {query}");
                 throw new DbDataException(ex, query);
             }
         }
